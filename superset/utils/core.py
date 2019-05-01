@@ -56,6 +56,7 @@ from sqlalchemy.types import TEXT, TypeDecorator
 from superset.exceptions import SupersetException, SupersetTimeoutException
 from superset.utils.dates import datetime_to_epoch, EPOCH
 
+from bblfsh.pyuast import decode
 
 logging.getLogger('MARKDOWN').setLevel(logging.INFO)
 
@@ -342,10 +343,13 @@ def base_json_conv(obj):
         return str(obj)
     elif isinstance(obj, bytes):
         try:
-            return '{}'.format(obj)
+            ctx = decode(obj, format=0)
+            return json.dumps(ctx.load())
         except Exception:
-            return '[bytes]'
-
+            try:
+                return '{}'.format(obj)
+            except Exception:
+                return '[bytes]'
 
 def json_iso_dttm_ser(obj, pessimistic=False):
     """
