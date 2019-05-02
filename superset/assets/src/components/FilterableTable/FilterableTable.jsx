@@ -28,7 +28,7 @@ import {
 } from 'react-virtualized';
 import { getTextWidth } from '../../modules/visUtils';
 
-import cellRenderer from './CellRenderer';
+import { cellRenderer, isUAST } from './CellRenderer';
 
 const propTypes = {
   orderedColumnKeys: PropTypes.array.isRequired,
@@ -84,7 +84,7 @@ export default class FilterableTable extends PureComponent {
       const colWidths = this.list
         .map((d) => {
           // TODO hardcoded, implement a better way
-          if (d[key].includes('"@pos"')) {
+          if (isUAST(d[key])) {
             return 150;
           }
 

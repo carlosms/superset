@@ -2,7 +2,16 @@
 import React from 'react';
 import UASTButton from './UASTButton';
 
-export default function cellRenderer({
+function isUAST(st) {
+  try {
+    JSON.parse(st);
+    return st.includes('"@pos"');
+  } catch (error) {
+    return false;
+  }
+}
+
+function cellRenderer({
   cellData,
   columnData,
   columnIndex,
@@ -12,10 +21,11 @@ export default function cellRenderer({
   rowIndex,
 }) {
   const st = String(cellData);
-  if (st.includes('"@pos"')) {
+  if (isUAST(st)) {
     return (<UASTButton uast={st} />);
   }
 
   return st;
 }
 
+export { cellRenderer, isUAST };
