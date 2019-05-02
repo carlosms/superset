@@ -35,6 +35,7 @@ from typing import Optional
 import uuid
 import zlib
 
+from bblfsh.pyuast import decode
 import bleach
 import celery
 from dateutil.parser import parse
@@ -55,8 +56,6 @@ from sqlalchemy.types import TEXT, TypeDecorator
 
 from superset.exceptions import SupersetException, SupersetTimeoutException
 from superset.utils.dates import datetime_to_epoch, EPOCH
-
-from bblfsh.pyuast import decode
 
 logging.getLogger('MARKDOWN').setLevel(logging.INFO)
 
@@ -350,6 +349,7 @@ def base_json_conv(obj):
                 return '{}'.format(obj)
             except Exception:
                 return '[bytes]'
+
 
 def json_iso_dttm_ser(obj, pessimistic=False):
     """
