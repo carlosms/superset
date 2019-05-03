@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FlatUASTViewer from 'uast-viewer';
+import UASTViewer from 'uast-viewer';
 import 'uast-viewer/dist/default-theme.css';
 import '../stylesheets/UASTViewerPane.less';
 
@@ -35,7 +35,7 @@ function UASTViewerPane({
 }) {
   let content = null;
 
-  const uast = uastViewerProps.flatUast || uastViewerProps.initialFlatUast;
+  const uast = uastViewerProps.uast || uastViewerProps.initialUast;
   if (loading) {
     content = <div>loading...</div>;
   } else if (uast) {
@@ -46,7 +46,7 @@ function UASTViewerPane({
       content = <NotFound />;
     } else {
       content = (
-        <FlatUASTViewer
+        <UASTViewer
           {...uastViewerProps}
           rootIds={rootIds}
           showLocations={showLocations}
