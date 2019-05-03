@@ -4,29 +4,6 @@ import UASTViewer from 'uast-viewer';
 import 'uast-viewer/dist/default-theme.css';
 import '../stylesheets/UASTViewerPane.less';
 
-const ROOT_ID = 1;
-
-function getSearchResults(flatUast) {
-  if (!flatUast) {
-    return null;
-  }
-
-  const rootNode = flatUast[ROOT_ID];
-  if (!rootNode) {
-    return null;
-  }
-
-  if (Array.isArray(rootNode.n)) {
-    return rootNode.n.map(c => c.id);
-  }
-
-  return null;
-}
-
-function NotFound() {
-  return <div>Nothing found</div>;
-}
-
 function UASTViewerPane({
   loading,
   uastViewerProps,
@@ -39,20 +16,12 @@ function UASTViewerPane({
   if (loading) {
     content = <div>loading...</div>;
   } else if (uast) {
-    const searchResults = getSearchResults(uast);
-    const rootIds = searchResults || [ROOT_ID];
-
-    if (searchResults && !searchResults.length) {
-      content = <NotFound />;
-    } else {
-      content = (
-        <UASTViewer
-          {...uastViewerProps}
-          rootIds={rootIds}
-          showLocations={showLocations}
-        />
-      );
-    }
+    content = (
+      <UASTViewer
+        {...uastViewerProps}
+        showLocations={showLocations}
+      />
+    );
   }
 
   return (
